@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { EtymologyImage } from './EtymologyImage';
 import { useGamification } from './GamificationSystem';
+import { analisarEtimologia } from '../lib/gemini';
 
 interface MorphologyScreenProps {
   word: string;
@@ -30,24 +31,12 @@ export function MorphologyScreen({ word, onChallengeStart }: MorphologyScreenPro
       setAiResult(null);
       
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://veritas-radix-deploy-test.onrender.com'}/api/etymology/analyze/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ word }),
-        });
-        
-        if (!response.ok) {
-          throw new Error(`Erro ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        setAiResult(data);
+        const analise = await analisarEtimologia(word);
+        setAiResult({ success: true, analysis: analise });
         
       } catch (err: any) {
-        console.error('Erro na busca:', err);
-        setError('Erro ao buscar análise etimológica');
+        console.error('Erro na análise:', err);
+        setError(err.message || 'Erro ao analisar etimologia');
       } finally {
         setLoading(false);
       }
@@ -135,12 +124,12 @@ export function MorphologyScreen({ word, onChallengeStart }: MorphologyScreenPro
   // Usar dados da IA se disponíveis, senão usar dados estáticos
   const currentWord = aiResult?.success && aiResult?.analysis 
     ? {
-        origin: `${aiResult.analysis.original_language || 'Origem desconhecida'}`,
-        prefix: { text: aiResult.analysis.prefix || '', meaning: 'Prefixo' },
-        root: { text: aiResult.analysis.root || word, meaning: 'Raiz principal' },
-        suffix: { text: aiResult.analysis.suffix || '', meaning: 'Sufixo' },
-        completeMeaning: aiResult.analysis.etymology_explanation || `Análise da palavra "${word}".`,
-        etymology: aiResult.analysis.etymology_explanation || `Etimologia de "${word}".`
+        origin: aiResult.analysis.origem || 'Origem desconhecida',
+        prefix: { text: '', meaning: 'Prefixo' },
+        root: { text: aiResult.analysis.raiz || word, meaning: 'Raiz principal' },
+        suffix: { text: '', meaning: 'Sufixo' },
+        completeMeaning: aiResult.analysis.explicacao || `Análise da palavra "${word}".`,
+        etymology: aiResult.analysis.evolucao || `Etimologia de "${word}".`
       }
     : morphologyData[word as keyof typeof morphologyData];
 

@@ -3,7 +3,7 @@ import { Mail, Lock, Facebook, Chrome, GraduationCap, User } from 'lucide-react'
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardHeader } from './ui/card';
-import { login, handleApiError } from '../lib/api';
+// Removido import do api.ts - usando apenas Gemini
 
 interface LoginScreenProps {
   onLogin: (type: 'student' | 'teacher') => void;
@@ -30,7 +30,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
         setError('Por favor, preencha todos os campos');
       }
     } catch (err) {
-      setError(handleApiError(err));
+      setError('Erro ao fazer login');
     } finally {
       setIsLoading(false);
     }

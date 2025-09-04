@@ -3,6 +3,11 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
 export async function analisarEtimologia(palavra: string) {
+  // Verificar se a API key está configurada
+  if (!import.meta.env.VITE_GEMINI_API_KEY) {
+    throw new Error('API Key do Gemini não configurada');
+  }
+
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
   
   const prompt = `Analise a etimologia da palavra "${palavra}". Forneça em formato JSON:
@@ -18,11 +23,26 @@ export async function analisarEtimologia(palavra: string) {
   Responda apenas o JSON, sem texto adicional.`;
 
   try {
+    console.log('Iniciando análise para:', palavra);
     const result = await model.generateContent(prompt);
     const response = result.response.text();
-    return JSON.parse(response.replace(/```json|```/g, '').trim());
+    console.log('Resposta do Gemini:', response);
+    
+    const cleanResponse = response.replace(/```json|```/g, '').trim();
+    return JSON.parse(cleanResponse);
   } catch (error) {
-    console.error('Erro na análise etimológica:', error);
-    throw new Error('Erro ao analisar etimologia');
+    console.error('Erro detalhado:', error);
+    
+    if (error.message?.includes('API_KEY_INVALID')) {
+      throw new Error('Chave da API inválida');
+    }
+    if (error.message?.includes('QUOTA_EXCEEDED')) {
+      throw new Error('Cota da API excedida');
+    }
+    if (error instanceof SyntaxError) {
+      throw new Error('Resposta inválida da API');
+    }
+    
+    throw new Error(`Erro na análise: ${error.message}`);
   }
 }

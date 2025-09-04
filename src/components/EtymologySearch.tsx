@@ -33,7 +33,7 @@ export const EtymologySearch: React.FC = () => {
       setResultado(analise);
     } catch (err: any) {
       console.error('Erro na análise:', err);
-      setError('Erro ao analisar a palavra. Tente novamente.');
+      setError(err.message || 'Erro ao analisar a palavra. Tente novamente.');
     } finally {
       setLoading(false);
     }

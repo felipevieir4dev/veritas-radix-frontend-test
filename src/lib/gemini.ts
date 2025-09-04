@@ -8,7 +8,7 @@ export async function analisarEtimologia(palavra: string) {
     throw new Error('API Key do Gemini não configurada');
   }
 
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
   
   const prompt = `Analise a etimologia da palavra "${palavra}". Forneça em formato JSON:
   {

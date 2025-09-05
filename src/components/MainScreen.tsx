@@ -78,7 +78,7 @@ export function MainScreen({ onWordSelect }: MainScreenProps) {
                 placeholder="Digite uma palavra para explorar suas raízes..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="responsive-input pl-12 pr-28 bg-[var(--color-aged-paper)] border-[var(--color-deep-red-light)] focus:border-[var(--color-deep-red)] font-body"
+                className="pl-12 pr-28 bg-[var(--color-aged-paper)] border-[var(--color-deep-red-light)] focus:border-[var(--color-deep-red)] font-body"
               />
               <Button 
                 type="submit"

@@ -58,33 +58,34 @@ export function MainScreen({ onWordSelect }: MainScreenProps) {
     <div className="min-h-screen p-4 sm:p-6 pb-24">
       <div className="max-w-5xl mx-auto">
         {/* Cabeçalho */}
-        <div className="text-center mb-12">
-          <h1 className="font-display text-aged mb-4 text-[24px] text-[32px] text-[36px] text-[40px] text-[36px] text-[32px] text-[24px]">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="font-display text-aged mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
             Veritas Radix
           </h1>
-          <div className="w-32 h-px bg-[var(--color-deep-red)] mx-auto mb-6"></div>
-          <p className="text-lg text-sepia italic font-body max-w-2xl mx-auto">
+          <div className="w-24 sm:w-32 h-px bg-[var(--color-deep-red)] mx-auto mb-4 sm:mb-6"></div>
+          <p className="text-sm sm:text-base lg:text-lg text-sepia italic font-body max-w-2xl mx-auto px-4">
             "Explore as raízes etimológicas das palavras e descubra as histórias escondidas na linguagem"
           </p>
         </div>
 
         {/* Barra de Pesquisa */}
-        <div className="max-w-2xl mx-auto mb-16">
+        <div className="max-w-2xl mx-auto mb-12 sm:mb-16 px-4">
           <form onSubmit={handleSearch}>
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[var(--color-sepia)]" size={20} />
+              <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-[var(--color-sepia)]" size={18} />
               <Input
                 type="text"
-                placeholder="Digite uma palavra para explorar suas raízes..."
+                placeholder="Digite uma palavra..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 pr-28 bg-[var(--color-aged-paper)] border-[var(--color-deep-red-light)] focus:border-[var(--color-deep-red)] font-body"
+                className="pl-10 sm:pl-12 pr-20 sm:pr-28 bg-[var(--color-aged-paper)] border-[var(--color-deep-red-light)] focus:border-[var(--color-deep-red)] font-body text-sm sm:text-base"
               />
               <Button 
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 btn-primary px-6 py-2"
+                className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 btn-primary px-3 sm:px-6 py-1 sm:py-2 text-xs sm:text-sm"
               >
-                Explorar
+                <span className="hidden sm:inline">Explorar</span>
+                <span className="sm:hidden">OK</span>
               </Button>
             </div>
           </form>
@@ -93,7 +94,7 @@ export function MainScreen({ onWordSelect }: MainScreenProps) {
         {/* Palavras em Destaque */}
         <div className="mb-12">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-center font-display text-aged flex-1">
+            <h2 className="text-center font-display text-aged flex-1 text-lg sm:text-xl md:text-2xl">
               Palavras em Destaque
             </h2>
             
@@ -131,17 +132,17 @@ export function MainScreen({ onWordSelect }: MainScreenProps) {
                   )}
 
                   <div className="flex items-start justify-between mb-3">
-                    <h3 className="font-display text-deep-red">
+                    <h3 className="font-display text-deep-red text-base sm:text-lg">
                       {item.word}
                     </h3>
-                    <BookOpen size={18} className="text-[var(--color-sepia)] mt-1 flex-shrink-0" />
+                    <BookOpen size={16} className="text-[var(--color-sepia)] mt-1 flex-shrink-0" />
                   </div>
                   
-                  <p className="text-sepia mb-2 font-body italic text-sm">
+                  <p className="text-sepia mb-2 font-body italic text-xs sm:text-sm">
                     {item.origin}
                   </p>
                   
-                  <p className="text-aged font-body text-sm">
+                  <p className="text-aged font-body text-xs sm:text-sm leading-relaxed">
                     {item.meaning}
                   </p>
 
@@ -160,10 +161,10 @@ export function MainScreen({ onWordSelect }: MainScreenProps) {
         {/* Citação */}
         <div className="text-center">
           <div className="quote-card inline-block">
-            <p className="text-lg font-body italic text-deep-red mb-1">
+            <p className="text-sm sm:text-base lg:text-lg font-body italic text-deep-red mb-1">
               "Verba volant, scripta manent"
             </p>
-            <p className="text-sm text-sepia font-body">
+            <p className="text-xs sm:text-sm text-sepia font-body">
               As palavras voam, o que se escreve permanece
             </p>
           </div>
